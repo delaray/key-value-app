@@ -1,3 +1,4 @@
 .env.db
 .env.network
 .env.volume
+**/*.js~
