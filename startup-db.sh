@@ -17,7 +17,7 @@ CONTAINER_PORT=27017
 # storage
 source .env.volume
 VOLUME_CONTAINER_PATH="/data/db"
-BACKEND_
+
 
 if [ "$(docker ps -q -f name=$CONTAINER_NAME)" ]; then
     echo "Container $CONTAINER_NAME already exists"

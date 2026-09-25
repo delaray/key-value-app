@@ -1,6 +1,8 @@
 # Backend image & container names
-BACKEND_IMAGE_NAME="backend_image"
+BACKEND_IMAGE_NAME="key-value-backend"
 BACKEND_CONTAINER_NAME="backend"
+
+MONGODB_HOST="mongo"
 
 # Database
 source .env.db
@@ -9,7 +11,7 @@ source .env.db
 source .env.network
 LOCALHOST_PORT=3000
 CONTAINER_PORT=3000
-MONGODB_HOST=MONHODB
+MONGODB_HOST=MONGODB
 
 # STORAGE
 source .env.volume
@@ -27,7 +29,9 @@ docker run --rm -d --name $BACKEND_CONTAINER_NAME \
        -e KEY_VALUE_DB=$KEY_VALUE_DB \
        -e KEY_VALUE_USER=$KEY_VALUE_USER \
        -e KEY_VALUE_PASSWORD=$KEY_VALUE_PASSWORD \
+       -e MONGODB_HOST=$MONGODB_HOST \
+       -e PORT=$CONTAINER_PORT \
        -p $LOCALHOST_PORT:$CONTAINER_PORT \
-       -v $VOLUME_NAME:$VOLUME_CONTAINER_PATH \
+       -v ./backend/src:/app/src \
        --network $NETWORK_NAME \
-       $MONGODB_IMAGE:$MONGODB_TAG
+       $BACKEND_IMAGE_NAME
