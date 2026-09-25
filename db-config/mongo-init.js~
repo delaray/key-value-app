@@ -1,0 +1,15 @@
+db = db.getsibblingDB('key-value-db');
+
+db.createUser(
+    {
+	user: 'key-value-usser',
+	pwd: 'key-value-password',
+	roles: [
+	    {
+		role: 'readWrite',
+		db: 'key-value-db'
+	    }	    
+        ]
+    }
+)
+
