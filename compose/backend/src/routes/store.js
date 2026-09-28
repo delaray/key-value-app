@@ -1,16 +1,19 @@
 const express = require("express");
-const { keyValue } = require("./models/keyValue");
+const { KeyValue } = require('../models/keyValue')
 
 const keyValueRouter = express.Router();
 
 keyValueRouter.post('/', async (req, res) => {
-    const { key, value } = req.body;
+    const { key, value } = req.query;
 
-    try {
-
-	if (!key || !value) {
-	    return res.status(400).json({error: "Both key and value are required."});
+    console.log(`Key = ${key}, Value = ${value}`)
+    
+    if (!key || !value) {
+	return res
+	    .status(400)
+	    .json({error: "Both key and value are required."});
 	}
+    try {
 	const existingKey = await KeyValue.findOne({ key });
 	
 	if (existingKey) {
@@ -18,13 +21,13 @@ keyValueRouter.post('/', async (req, res) => {
 	}
 
 	const keyValue = new KeyValue({key, value});
-	await KeyValue.save();
-
+	await keyValue.save();
 	return res.status(201).json({message: "key value strored successfully."});
    
-    } catch {err) {
-	res.status(500).json({message: "Inteernal server error."});
-    }})
+    } catch (err) {
+	res.status(500).json({message: "Internal server error."});
+    };
+});
     
 
 keyValueRouter.get('/:key', async (req, res) => {
@@ -37,26 +40,28 @@ keyValueRouter.get('/:key', async (req, res) => {
 	}
 	return res.status(200).json({key: key, value: keyValue.value});
 	
-    } catch {err) {
-	res.status(500).json({message: "Inteernal server error."});
-    }
-})
+    } catch (err) {
+	res.status(500).json({message: "Internal server error."});
+    };
+});
 
 
 keyValueRouter.put('/:key', (req, res) => {
 		       
     try {
-    } catch {err) {
+    } catch (err) {
 	res.status(500).json({message: "Internal server error."});
-    }}
+    };
+});
 
 keyValueRouter.delete('/:key', (req, res) => {
     try {
-    } catch {err) {
+    } catch (err) {
 	res.status(500).json({message: "Inteernal server error."});
-    }}
+    };
+});
 
 
 module.exports = {
-    keyValueRouters,
+    keyValueRouter,
 }
